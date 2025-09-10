@@ -1,0 +1,2149 @@
+[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code[ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=002[ln1025]sql=SELECT DISTINCT code, code_nm 
+                FROM tcodebook
+                WHERE major_code = 002
+                  AND code <> '000'
+                ORDER BY code
+[ln1009]code=001[ln1025]sql=SELECT DISTINCT code, code_nm 
+                FROM tcodebook
+                WHERE major_code = 001
+                  AND code <> '000'
+                ORDER BY code
+[ln1009]code=002[ln1025]sql=SELECT DISTINCT code, code_nm 
+                FROM tcodebook
+                WHERE major_code = 002
+                  AND code <> '000'
+                ORDER BY code
+[ln1009]code=001[ln1025]sql=SELECT DISTINCT code, code_nm 
+                FROM tcodebook
+                WHERE major_code = 001
+                  AND code <> '000'
+                ORDER BY code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                
+[ln1009]code=000[ln1025]sql=SELECT DISTINCT major_code AS code, major_nm AS code_nm 
+                FROM tcodebook
+                WHERE code IN ('000', '001')  -- 000=명절, 001=행사기획
+                ORDER BY major_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                [ln1057]sql=SELECT DISTINCT store_code as prod_code, code_exp as prod_name 
+              FROM tcomcode
+              WHERE grp_code = '2'
+                AND use_yn = 'y'
+            ORDER BY store_code
+[ln646]sql=SELECT 
+                    TEVENT.serial_no AS serial_no,            -- 일련번호
+                    date(TEVENT.increate_dt) AS increate_dt,  -- 판매일
+                    TEVENT.major_code AS major_code,        -- 대분류
+                    TCBM.major_nm AS major_nm,            -- 대분류명
+                    TEVENT.code AS code,                    -- 소분류
+                    TCBC.code_nm AS code_nm,              -- 소분류명
+                    TEVENT.event_name AS event_name,        -- 행사명
+                    TEVENT.event_desc AS event_desc,        -- 행사설명
+                    TEVENT.start_date AS start_date,          -- 시작일
+                    TEVENT.end_date AS end_date,              -- 종료일
+                    TEVENT.prod_code AS prod_code,          -- 상품코드
+                    TCC.code_exp AS prod_nm,              -- 상품명
+                    TEVENT.unit_price AS unit_price,        -- 단가
+                    TEVENT.target_qty AS target_qty,        -- 목표수량
+                    TEVENT.result_qty AS result_qty,        -- 실적수량
+                    date_format(TEVENT.modify_dt, '%Y-%m-%d %H:%i') AS modify_dt, -- 생성일시
+                    wpu.display_name AS modify_nm -- 담당자
+                FROM tevent AS TEVENT
+                LEFT JOIN wp_users wpu ON TEVENT.modify_id = wpu.user_login
+                LEFT JOIN tcodebook AS TCBM ON TEVENT.major_code = TCBM.major_code AND TCBM.code = '000'  -- 행사 대분류
+                LEFT JOIN tcodebook AS TCBC ON TEVENT.major_code = TCBC.major_code AND TEVENT.code = TCBC.code  -- 행사 소분류
+                LEFT JOIN tcomcode AS TCC ON TEVENT.prod_code = TCC.store_code AND TCC.grp_code = '2' AND TCC.use_yn = 'y' -- 상품코드
+                WHERE DATE(TEVENT.increate_dt) BETWEEN ? AND ? 
+                ORDER BY TEVENT.increate_dt, TEVENT.serial_no DESC
+                

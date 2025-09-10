@@ -1,0 +1,168 @@
+<meta http-equiv="refresh" content="0; url=/login" />
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조은수산 - 사이트 이동 안내</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .message {
+            font-size: 1.1rem;
+            color: #34495e;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .redirect-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            margin: 10px;
+        }
+
+        .redirect-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+            background: linear-gradient(45deg, #2980b9, #3498db);
+        }
+
+        .auto-redirect {
+            font-size: 0.9rem;
+            color: #95a5a6;
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        .countdown {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .fish-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .redirect-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="fish-icon"></span>
+        <h1 class="logo">조은수산</h1>
+        <p class="subtitle">신선한 수산물의 시작</p>
+        
+        <div class="message">
+            <p>안녕하세요! 서버 작업을을 완료하였습니다.</p> 
+            <p> .NET 주소를 사용하시기 바랍니다.</p>
+            <p><strong>joeunfish.net</strong></p>
+        </div>
+        
+        <a href="https://joeunfish.net" class="redirect-button" id="redirectBtn">
+            새 사이트로 이동하기
+        </a>
+        <a href="/login" class="redirect-button">로그인</a>
+        
+        <p class="auto-redirect">
+            <span id="countdown" class="countdown">30</span>초 후 자동으로 새 사이트로 이동합니다.
+        </p>
+    </div>
+
+    <script>
+        // 자동 리다이렉트 카운트다운
+        let countdown = 30;
+        const countdownElement = document.getElementById('countdown');
+        const redirectBtn = document.getElementById('redirectBtn');
+        
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
+                window.location.href = 'https://joeunfish.net';
+            }
+        }, 1000);
+        
+        // 버튼 클릭 시 즉시 리다이렉트
+        redirectBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'https://joeunfish.net';
+        });
+        
+        // 페이지 로드 시 자동 리다이렉트 시작
+        window.onload = function() {
+            // 10초 후 자동 리다이렉트
+            setTimeout(() => {
+                if (countdown > 0) {
+                    window.location.href = 'https://joeunfish.net';
+                }
+            }, 10000);
+        };
+    </script>
+</body>
+</html>

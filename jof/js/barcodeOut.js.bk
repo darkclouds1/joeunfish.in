@@ -1,0 +1,545 @@
+var rtnCnt = 0; // 가져온 Data갯수
+var idx = 0; // tables Row 갯수
+var parm = ""; // kwd
+
+function timeout(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+//  저장 항목4개: barcode1, 중량, barcode2, date
+var totalWeight = 0;
+var barcodeList = []; // 목록 데이터를 저장할 배열
+
+// -----------------------------------------------------------------
+// 입력시작::목록에 바코드 보여주고 성공이면 DB 저장
+// - category 1i:입력, 1s:조회, 2:조회
+// - inptuArray 6개 입력 field: 입력일, LC#, barcode1,2, 중량, 생산일
+// -----------------------------------------------------------------
+var newItem = [];
+function ajax_barcodeOut(inputArray, category) {
+  // -----------------------
+  // 목록 표시::mobile 형태
+  // -----------------------
+  const listContainer = document.getElementById("listContainer");
+  // const listItems = listContainer.querySelectorAll("li");
+  const totalItems = barcodeList.length + 1;
+  // const formattedTotalItems = totalItems.toString().padStart(3, "0");
+
+  const increate_dt = inputArray[0];
+  const lc_no = inputArray[1];
+  const store_no = inputArray[2];
+  const pack_color = inputArray[3];
+  const barcode_out = inputArray[4];
+  const manu_date = inputArray[5];
+  const expi_date = inputArray[6];
+  const weight = parseFloat(inputArray[7]);
+
+  newItem = {
+    no: totalItems,
+    increate_dt: increate_dt,
+    lc_no: lc_no,
+    store_no: store_no,
+    pack_color: pack_color,
+    barcode_out: barcode_out,
+    manu_date: manu_date,
+    expi_date: expi_date,
+    weight: weight,
+  };
+
+  // console.log(barcodeList);
+
+  // barcode1, 2 합쳐서 중복 있는지 체크
+  const isDuplicate = barcodeList.some(
+    (item) => item.barcode_out === newItem.barcode_out
+  );
+
+  // ------------------------------------------
+  // barcode_out 중복이면 alert
+  // ------------------------------------------
+  if (isDuplicate) {
+    console.log("이미 입력한 바코드 입니다!");
+    alert("이미 입력한 바코드 입니다!");
+    document.getElementById("barcodeOutput").focus();
+    return false;
+  }
+
+  // --------------------------------------------------
+  // [DB 저장:조회 post data 생성]
+  // category: 1:입력, 2:조회, inputArray 6개 항목 전달
+  // --------------------------------------------------
+  //  barcode 입력 시 table 삭제 필요없음.
+  // document.getElementById("tables").innerHTML = "";
+
+  parm =
+    "&increate_dt=" +
+    increate_dt +
+    "&lc_no=" +
+    lc_no +
+    "&store_no=" +
+    store_no +
+    "&pack_color=" +
+    pack_color +
+    "&barcode_out=" +
+    barcode_out +
+    "&manu_date=" +
+    manu_date +
+    "&expi_date=" +
+    expi_date +
+    "&weight=" +
+    weight +
+    "&user_id=" +
+    user_id;
+
+  // ----------------------------
+  // 입력: return true;
+  // 조회: return 조회 Data
+  // ----------------------------
+  category += 'i';
+  server = "/jof/datas/barcodeOut_srv.php?category=" + category + parm;
+  console.log("[ajax_barcodeIn]" + server);
+  getAjax(server, recvBarcodeOut);
+}
+
+// ------------------------------------
+// 바코드 입력 및 목록에서 삭제 처리
+// 입력: category '1':입력, '2':조회
+// 삭제: category 'd'
+// ------------------------------------
+function recvBarcodeOut(response) {
+  move_stop();
+
+  // debug
+  console.log(response);
+  // return;
+
+  // 서버 응답을 JSON 객체로 변환
+  var responseObj = JSON.parse(response);
+
+  if (responseObj.success) {
+    // --------------------------------------
+    // barcode 입력
+    // --------------------------------------
+    if (responseObj.category === "1") {
+      barcodeList.push(newItem);
+
+      // 번호 + 목록을 포맷에 맞게 수정한 displayText
+      const displayText = `
+        <div class="content">
+            <span class="item">[${newItem.no}] LC#::${newItem.lc_no} [입력일] ${newItem.increate_dt}</span>
+            <div class="item-details">
+            점번호#: ${newItem.store_no}, 색깔:${newItem.pack_color}
+            barcode: ${newItem.barcode_out}<br>
+            제조일자: ${newItem.manu_date}, 소비기한: ${newItem.expi_date}, 중량:${newItem.weight} (※DB:   )
+            </div>
+        </div>
+        `;
+
+      // 삭제 button, style과 class를 기존 CSS에 맞게 조정한 delBtn
+      const delBtn = `
+        <div class="button-container" style="display:none;" id="link${parseInt(
+        newItem.no
+      )}">
+            <center>
+                <button type="button" class="del-btn" onclick='delBarcode("${newItem.barcode_out
+        }")'>삭제</button>
+            </center>
+        </div>
+        `;
+
+      // 삭제 Key값 id를 포함한 newListItem
+      const newListItem = `
+        <li class="list-item" id="item-no${newItem.no}">
+            <a href="javascript:void(0);" class="full-link" onclick="event.stopPropagation(); openButton(${parseInt(
+        newItem.no
+      )});">
+                ${displayText}
+                ${delBtn}
+            </a>
+        </li>
+        `;
+
+      // newItem을 listContainer에 추가
+      // listContainer.innerHTML = newListItem + listContainer.innerHTML;
+
+      const tablesContainer = document.getElementById("tables");
+      tablesContainer.innerHTML = newListItem + tablesContainer.innerHTML;
+
+      // 총건수(Box), 총중량 표시
+      document.getElementById("count").value = barcodeList.length + " (Box)";
+      const totalWeight = barcodeList.reduce(
+        (sum, item) => sum + item.weight,
+        0
+      );
+      document.getElementById("total-weight").value =
+        totalWeight.toFixed(1) + " (kg)";
+
+      // 성공 시 필요한 추가 작업 수행
+      document.getElementById("totalrec").innerHTML =
+        '<font size="3em">[' +
+        platForm +
+        ":" +
+        navigator.platform +
+        "::" +
+        "]total record=" +
+        barcodeList.length;
+
+      return true;
+    }
+
+    // -----------------------------------------------------------
+    // Success 삭제결과::목록에서 barcode 삭제 category = 'd'
+    //  - 목록에서 삭제하고 전역 array::barcodeList item도 삭제
+    // -----------------------------------------------------------
+    if (responseObj.category === "d") {
+      // 알림 표시
+      alert(
+        responseObj.barcode1 +
+        ", " +
+        responseObj.barcode2 +
+        " ==> barcode를 삭제했습니다."
+      );
+
+      // barcodeList에서 항목 삭제
+      const index = barcodeList.findIndex(
+        (item) => item.barcode_out === responseObj.barcode_out
+      );
+
+      if (index !== -1) {
+        const itemNo = barcodeList[index].no;
+        barcodeList.splice(index, 1); // 배열에서 항목 제거
+        // HTML 목록에서도 해당 항목을 제거
+        const itemToRemove = document.getElementById(`item-no${itemNo}`);
+        if (itemToRemove && itemToRemove.parentNode) {
+          itemToRemove.parentNode.removeChild(itemToRemove);
+        }
+
+        // 총건수(Box), 총중량 업데이트
+        document.getElementById("count").value = barcodeList.length + " (Box)";
+        const totalWeight = barcodeList.reduce(
+          (sum, item) => sum + parseFloat(item.weight),
+          0
+        );
+        document.getElementById("total-weight").value =
+          totalWeight.toFixed(2) + " (kg)";
+
+        document.getElementById("totalrec").innerHTML =
+          '<font size="3em">[' +
+          platForm +
+          ":" +
+          navigator.platform +
+          "::" +
+          "]total record=" +
+          barcodeList.length;
+      }
+    }
+  } else {
+    // DB 중복!
+    alert("실패: " + responseObj.message);
+    document.getElementById("barcodeOutput").focus();
+    return false;
+    // 실패 시 필요한 추가 작업 수행
+  }
+}
+
+// 조회시작:: LC# 입력|확인
+//  - category=1 LC#:조회, 2:조회
+function searchAjax_OutKwd(
+  category,
+  increate_dt,
+  lc_no,
+  store_no,
+  pack_color,
+  barcode_out
+) {
+  // ----------------------------
+  // 입력: return true;
+  // 조회: return 조회 Data
+  // ----------------------------
+  let param =
+    "&increate_dt=" +
+    increate_dt +
+    "&lc_no=" +
+    lc_no +
+    "&store_no=" +
+    store_no +
+    "&pack_color=" +
+    pack_color +
+    "&barcode_out=" +
+    barcode_out;
+
+  // category=1 이고 조회이면 's'를 붙임.(서버에서 확인)
+  if (category == '1') category += 's';
+  server = "/jof/datas/searchOut_srv.php?category=" + category + param;
+  console.log("[searchOut_srv]" + server);
+
+  if (category == 2) move(); // 조회 일 때 loding...
+  getAjax(server, recvData);
+}
+
+function recvData(data) {
+  move_stop();
+
+  //console.log(data);
+  //return;
+
+  try {
+    // 헤더정보
+    let jsData = JSON.parse(data);
+    console.log(jsData.response.header);
+
+    items = jsData.response.body.items;
+    totalCount = jsData.response.body.totalCount;
+    resultCode = jsData.response.header.resultCode;
+  } catch (e) {
+    console.log(e.error);
+    console.log(e.message);
+    alert(
+      "시스템 작업 중이거나 장애가 있습니다. 잠시 후 다시 사용하시기 바랍니다."
+    );
+    return false;
+  }
+  // 데이터 없음
+  if (totalCount == 0 || data === "") {
+    alert("등록된 데이터가 없습니다.");
+    // if (lic !== "") {
+    //   licn = lic + licn;
+    // }
+    barcodeList = [];
+    licn = "";
+    idx = 0;
+    document.getElementById("tables").innerHTML = licn;
+    document.getElementById("totalrec").innerHTML =
+      '<font size="3em">[' +
+      platForm +
+      ":" +
+      navigator.platform +
+      "::" +
+      "]total record=" +
+      idx;
+    return false;
+  }
+
+  document.getElementById("tables").innerHTML = "";
+  document.getElementById("totalrec").innerHTML = "";
+
+  // 조회결과
+  try {
+    if (platForm == "computer") {
+      codeOutClass.makeTableHead();
+      codeOutClass.makeTabletr(data);
+      if (table1.rows.length > 2) setSort();
+    } else {
+      // 모바일 조회 데이터
+      codeOutClass.makeTabletr2Mobile(data);
+    }
+
+    document.getElementById("totalrec").innerHTML =
+      '<font size="3em">[' +
+      platForm +
+      ":" +
+      navigator.platform +
+      "::" +
+      "]total record=" +
+      idx;
+  } catch (e) {
+    alert(
+      "ln205::시스템 장애 입니다. 잠시 후 재시도 하시기 바랍니다." + e.message
+    );
+    return false;
+  }
+
+  // -------------------------------------------------------
+  //  메시지 표시
+  // -------------------------------------------------------
+  const ment = "\nLC#: " + idx + "건 조회하였습니다.\n";
+  document.getElementById("notification-container").innerHTML =
+    "<p><font color='white'>" + ment + "</font></p>";
+  showNotification();
+  return true;
+}
+
+// 삭제시작
+function delBarcode(barcode1, barcode2) {
+  if (confirm(barcode1 + " 영구 삭제합니다.")) {
+    // 사용자가 '확인'을 클릭했을 때 실행할 코드
+    // category='d'
+    param = "&barcode1=" + barcode1 + "&barcode2=" + barcode2;
+    server = "/jof/datas/barcodeIn_srv.php?category=d" + param;
+    console.log("[delBarcode]" + server);
+
+    getAjax(server, recvBarcodeIn);
+  } else {
+    // 사용자가 '취소'를 클릭했을 때 실행할 코드
+    console.log("삭제를 취소합니다.");
+  }
+}
+
+/* -------------------------------------------------------------------------
+  new Version of get ajax : 20180728 HMJ
+-------------------------------------------------------------------------- */
+function getAjax(server, client) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      client(this.responseText);
+    } else if (this.status == 504) {
+      move_stop();
+      alert("Time-out Error...");
+      return;
+    }
+  };
+
+  // URLSearchParams를 사용하여 POST 요청에 포함할 데이터를 생성합니다.
+  // 이는 'application/x-www-form-urlencoded' 형식의 데이터를 생성합니다.
+  var params = new URLSearchParams();
+  params.append("category", category);
+  // 기타 필요한 파라미터를 여기에 추가합니다.
+  // 예: params.append('key', 'value');
+
+  // POST 메소드를 사용하고, 비동기로 설정합니다.
+  xhttp.open("POST", server, true);
+
+  // 적절한 헤더를 설정합니다. 폼 데이터를 전송한다고 서버에 알려줍니다.
+  xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  // 준비된 데이터를 전송합니다.
+  xhttp.send(params.toString());
+}
+
+// progress bar
+function move() {
+  var codes = document.getElementById("loading").children;
+  var randomIndex = Math.floor(Math.random() * codes.length);
+
+  for (var i = 0; i < codes.length; i++) {
+    codes[i].style.display = "none";
+  }
+  // 랜덤한 인덱스에 해당하는 div 요소만 보여줌
+  codes[randomIndex].style.display = "block";
+  document.getElementById("loading").style.display = "inline"; //"none";= inline
+}
+
+function move_stop() {
+  document.getElementById("loading").style.display = "none"; //"none";= inline
+}
+
+function openButton(idx) {
+  if (document.getElementById("link" + idx).style.display == "inline") {
+    document.getElementById("link" + idx).style.display = "none";
+  } else document.getElementById("link" + idx).style.display = "inline";
+}
+
+// li 선택 시 색깔
+function toggleSelection(liElement) {
+  // 'li-selected' 클래스의 존재 여부를 확인하고, 있으면 제거하고 없으면 추가
+  liElement.classList.toggle("li-selected");
+}
+
+// ------------------------
+// head sorting
+// ------------------------
+var sortreplace = null;
+function setSort() {
+  const insTable = document.getElementById("specData");
+  sortreplace = replacement(insTable);
+}
+function sortTD(index) {
+  sortreplace.ascending(index);
+}
+function reverseTD(index) {
+  sortreplace.descending(index);
+}
+
+// actionBtn 조회 시작
+function actionBtn_Search() {
+  // ajax_barcodeIn(); // ajax_barcodeIn 함수 호출
+  const category = document.getElementById("category").value; // 1:입력, 2:조회
+  const increate_dt = document.getElementById("createDate").value;
+  const lc_no = document.getElementById("lcNumber").value;
+  const barcode_out = document.getElementById("barcodeOutput").value;
+  const store_no = document.getElementById("storeNo").value;
+  const pack_color = document.getElementById("color").value;
+
+  // category=1 (입력모드) 일때는 lcNumber 확인
+  if (category === "1" && lcNumber === "") {
+    alert("Lc# 4자리를 입력하세요.");
+    return false;
+  }
+  const rtn = searchAjaxKwd(
+    category,
+    increate_dt,
+    lc_no,
+    store_no,
+    pack_color,
+    barcode_out
+  );
+  return rtn;
+}
+
+// 엑셀 변환
+function tableToExcel(
+  tableId = "specData",
+  name = "joeunfish",
+  filename = "joeunfish"
+) {
+  let uri =
+    "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,",
+    template =
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>',
+    base64 = function (s) {
+      return window.btoa(unescape(encodeURIComponent(s)));
+    },
+    format = function (s, c) {
+      return s.replace(/{(\w+)}/g, function (m, p) {
+        return c[p];
+      });
+    };
+
+  let tableElement = document.getElementById(tableId);
+  if (!tableElement) {
+    alert(
+      "조회된 테이블이 없습니다. 조회 후 다운하시기 바랍니다.:: " + tableId
+    );
+    return;
+  }
+
+  // 테이블의 첫 번째 행(보통 헤더)을 제외하고 복제
+  let clonedTable = tableElement.cloneNode(true);
+  if (clonedTable.tHead) {
+    // 테이블 헤더가 있는 경우
+    // clonedTable.deleteRow(0);
+    Array.from(clonedTable.tHead.querySelectorAll("th")).forEach((th) => {
+      th.innerHTML = th.innerHTML.replace(/▲|▼/g, ""); // '▲'와 '▼' 제거
+    });
+  }
+
+  // 모든 셀을 순회하며 데이터를 텍스트로 변환
+  Array.from(clonedTable.querySelectorAll("td")).forEach((td, index) => {
+    // 5번째 컬럼(td)의 값을 텍스트로 변환
+    if (index % clonedTable.rows[0].cells.length === 4) {
+      // index는 0부터 시작하므로 5번째 컬럼의 인덱스는 4입니다.
+      td.textContent = `'${td.textContent}`;
+    } else {
+      td.textContent = td.textContent;
+    }
+  });
+
+  // 엑셀 파일 생성
+  const createDate = document.getElementById("createDate").value;
+  let lcNumber = document.getElementById("lcNumber").value;
+  if (lcNumber === "") lcNumber = "0000";
+  name = createDate + "_" + lcNumber;
+
+  var ctx = {
+    worksheet: name || "Worksheet",
+    table: clonedTable.innerHTML,
+  };
+
+  var link = document.createElement("a");
+  link.download = filename + "_" + dToDate + "_" + lcNumber + ".xls";
+  link.href = uri + base64(format(template, ctx));
+  document.body.appendChild(link); // Firefox에서 필요함
+  link.click();
+  document.body.removeChild(link); // 생성된 링크 요소 제거
+  alert("filename= '" + filename + "'로 다운로드 폴더에 저장되었습니다.");
+}

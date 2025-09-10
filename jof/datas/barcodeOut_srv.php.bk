@@ -1,0 +1,472 @@
+<?PHP
+//통합검색
+session_start();
+date_default_timezone_set('Asia/Seoul');
+
+require($_SERVER['DOCUMENT_ROOT'] . '/classphp/dbConn_fish.php');
+$dbConn   = new dbconnClassFish;
+$conn     = $dbConn->conn();
+
+// URL 매개변수 10개
+isset($_GET['category']) ? $category = $_GET['category'] : $category = "";
+isset($_GET['user_id']) ? $user_id = $_GET['user_id'] : $user_id = "";
+isset($_GET['increate_dt']) ? $increate_dt = $_GET['increate_dt'] : $increate_dt = "";
+isset($_GET['store_no']) ? $store_no = $_GET['store_no'] : $store_no = "";
+isset($_GET['lc_no']) ? $lc_no = $_GET['lc_no'] : $lc_no = "";
+isset($_GET['pack_color']) ? $pack_color = $_GET['pack_color'] : $pack_color = "";
+isset($_GET['barcode_out']) ? $barcode_out = $_GET['barcode_out'] : $barcode_out = "";
+isset($_GET['manu_date']) ? $manu_date = $_GET['manu_date'] : $manu_date = "";
+isset($_GET['expi_date']) ? $expi_date = $_GET['expi_date'] : $expi_date = "";
+isset($_GET['weight']) ? $weight = $_GET['weight'] : $weight = "";
+isset($_GET['prod_code']) ? $prod_code = $_GET['prod_code'] : $prod_code = "";
+isset($_GET['prod_nm']) ? $prod_nm = $_GET['prod_nm'] : $prod_nm = "";
+// 기타(상품명) 용도용 파라미터::
+isset($_GET['etc']) ? $etc = $_GET['etc'] : $etc = "";
+
+// 점포코드의 점포명 가져오기
+if (trim($store_no) !== "" ) {
+    // SQL 인젝션 방지를 위해 값 이스케이프
+    $safe_store_no = $conn->real_escape_string($store_no);
+    $sql = "SELECT RIGHT(TCC.code_exp, 3) AS store_nm
+            FROM tcomcode AS TCC
+            WHERE TCC.grp_code = '1'
+              AND TCC.use_yn = 'y'
+              AND TCC.store_code = '$safe_store_no'"; // 수정된 부분
+
+    $result = $conn->query($sql);
+    if ($result) {
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $store_nm = $row['store_nm']; // 단일 결과 사용
+            // echo $store_nm;
+        } else {
+            $store_nm = ''; // 결과가 없을 때 빈 문자열 할당
+        }
+    } else {
+        echo "Query failed: " . $conn->error; // 쿼리 실패 시 오류 메시지 출력
+        $store_nm = '';
+    }
+}
+
+// category 1:입력, i:Insert
+if ($category === "1i") {
+    $sql = "INSERT INTO tbarcodeout (increate_dt, barcode_out, lc_no, store_no, pack_color, manu_date, expi_date, weight, prod_code, prod_nm, create_id) VALUES ('" . $increate_dt . "', '"
+        . $barcode_out . "', '"
+        . $lc_no . "', '"
+        . $store_nm . "', '"
+        . $pack_color . "', '"
+        . $manu_date . "', '"
+        . $expi_date . "', "
+        . $weight . ", '"
+        . $prod_code . "', '"
+        . $prod_nm . "', '"
+        . $user_id . "')";
+
+    if ($conn->query($sql) !== true) {
+        // SQL 실행 실패
+        echo json_encode(array('success' => false, 'message' => "DB중복! 이전에 입력한 바코드 입니다!"));
+    } else {
+        // SQL 실행 성공
+        echo json_encode(array('success' => true, 'message' => '성공적으로 처리되었습니다.', 'category' => $category, 'barcode_out' => $barcode_out));
+    }
+    $conn->close();
+    return;
+}
+
+// 영구삭제
+if ($category === "d") {
+    if ($barcode_out !== '') {
+        $sql = "DELETE FROM tbarcodeout WHERE 1
+                        AND barcode_out = '" . $barcode_out . "'
+                        AND invoice_yn <> 'y'
+                        ";
+        if ($conn->query($sql) == true) {
+            // SQL 실행 성공
+            if ($conn->affected_rows > 0) {
+                echo json_encode(array('success' => true, 'message' => '성공적으로 처리되었습니다.', 'category' => $category, 'barcode_out' => $barcode_out));
+            } else {
+                echo json_encode(array('success' => false, 'message' => "출고된 상품은 삭제할 수 없습니다. 해당바코드 번호를 전산실에 문의하세요!", 'category' => $category));
+            }
+        } else {
+            // SQL 실행 실패
+            echo json_encode(array('success' => false, 'message' => "삭제 실패했습니다. 해당바코드 번호를 전산실에 문의하세요!", 'category' => $category));
+        }
+    } else {
+        echo json_encode(array('success' => false, 'message' => "바코드 번호가 넘어오지 않았습니다. ", 'category' => $category));
+    }
+    $conn->close();
+    return;
+}
+
+// category=1s: 생산조회 
+// - 1(BL# 입력) s:조회
+if ($category === '1s') {
+    $sql = " SELECT ROW_NUMBER() OVER (ORDER BY create_dt ASC) AS no, 
+                    increate_dt, 
+                    lc_no, 
+                    barcode_out, 
+                    store_no, 
+                    pack_color, 
+                    manu_date, 
+                    expi_date, 
+                    weight, 
+                    prod_code, 
+                    prod_nm, 
+                    invoice_yn, 
+                    create_dt 
+               FROM tbarcodeout 
+              WHERE 1 ";
+
+    // 전체 조회는 조은점 제외해서 조회
+    if ($store_no === '') {
+        // $sql .= " AND store_no <> '조은점'";
+    } else {
+        if ($store_nm !== '') $sql .= "     AND store_no = '" . $store_nm . "'";
+    }
+
+    // // 생산일자 선택은 조은점 제외.
+    if ($store_no !== '000') {
+        if ($increate_dt !== '') $sql .= " AND increate_dt = '$increate_dt'";
+    }
+    if ($lc_no !== '') $sql .= " AND lc_no = '$lc_no'";
+    $sql .= " ORDER BY CASE WHEN store_no = '조은점' THEN 1 ELSE 0 END ASC, create_dt ASC ";
+
+    $result = $conn->query($sql);
+    $json_string = $dbConn->rs2Json1($result, '00');
+    echo $json_string;
+    $conn->close();
+    return;
+}
+
+// 조회
+if ($category === '2s') {
+    $sql = " SELECT ROW_NUMBER() OVER (ORDER BY create_dt ASC) AS no,
+                    increate_dt,
+                    lc_no,
+                    barcode_out,
+                    store_no,
+                    pack_color,
+                    manu_date,
+                    expi_date,
+                    weight,
+                    prod_code,
+                    prod_nm,
+                    invoice_yn,
+                    create_dt
+               FROM tbarcodeout
+              WHERE 1
+            ";
+    if ($store_nm !== "조은점") {
+        if ($increate_dt !== '') $sql .= " AND increate_dt = '" . $increate_dt . "'";
+    }
+    if ($lc_no !== '') $sql .= "        AND lc_no = '" . $lc_no . "'";
+    if ($barcode_out !== '') $sql .= "  AND barcode_out = '" . $barcode_out . "'";
+    if ($store_no !== '') $sql .= "     AND store_no = '" . $store_nm . "'";
+    if ($pack_color !== '') $sql .= "   AND pack_color = '" . $pack_color . "'";
+    if ($prod_nm !== '') $sql .= "      AND prod_nm = '" . $prod_nm . "'";
+    $sql .= " ORDER BY CASE WHEN store_no = '조은점' THEN 1 ELSE 0 END ASC, create_dt ASC ";
+
+    $result = $conn->query($sql);
+    $json_string = $dbConn->rs2Json1($result, '00'); // 추세분석 JSON 파일명 전달
+
+    echo $json_string;
+    $conn->close();
+    return;
+}
+
+// 출고 시 삭제 상태에서 조회는 출고 안된것만 조회 함.
+// - invoice_yn = 'n'
+if ($category === '3s') {
+    $sql = " SELECT ROW_NUMBER() OVER (ORDER BY create_dt DESC) AS no,
+                    increate_dt,
+                    lc_no,
+                    barcode_out,
+                    store_no,
+                    pack_color,
+                    manu_date,
+                    expi_date,
+                    weight,
+                    prod_code,
+                    prod_nm,
+                    invoice_yn,
+                    create_dt
+               FROM RankedItems
+              WHERE 1
+                AND invoice_yn = 'n'
+        ";
+
+    // 전체 조회는 조은점 제외해서 조회, '조은점'인 경우
+    if ($store_no == '') {
+        $sql .= " AND store_no <> '조은점'";
+    } else {
+        $sql .= " AND store_no = '" . $store_no . "'";
+    }
+    if ($store_no !== '조은점') {
+        // 생산일자 선택은 조은점 제외.
+        if ($increate_dt !== '') $sql .= " AND increate_dt = '" . $increate_dt . "'";
+    }
+    if ($lc_no !== '') $sql .= " AND lc_no = '" . $lc_no . "'";
+
+    $result = $conn->query($sql);
+    $json_string = $dbConn->rs2Json1($result, '00'); // 추세분석 JSON 파일명 전달
+    echo $json_string;
+    $conn->close();
+    return;
+}
+
+// 출고조회
+// 2s조회::inv출고된것만 조회 = 2sinv
+if ($category === '2sinv') {
+    $sql = " SELECT ROW_NUMBER() OVER (ORDER BY create_dt ASC) AS no,
+                    increate_dt,
+                    lc_no,
+                    barcode_out,
+                    store_no,
+                    pack_color,
+                    manu_date,
+                    expi_date,
+                    weight,
+                    prod_code,
+                    prod_nm,
+                    invoice_yn,
+                    create_dt
+              FROM tbarcodeout
+             WHERE 1 
+            --    AND invoice_yn = 'y'  // 완료된것만?
+             ";
+
+    // 조은점은 생산일자와 상관없이 조회
+    if ($store_no !== '000') {
+        if ($increate_dt !== '') $sql .= " AND increate_dt = '$increate_dt'";
+    }
+
+    if ($lc_no !== '') $sql .= "        AND lc_no = '$lc_no'";
+    if ($barcode_out !== '') $sql .= "  AND barcode_out = '$barcode_out'";
+    if ($store_no !== '') $sql .= "     AND store_no = '$store_nm'";
+    if ($pack_color !== '') $sql .= "   AND pack_color = '$pack_color'";
+    if ($prod_nm !== '') $sql .= "      AND prod_nm = '$prod_nm'";
+    $sql .= " ORDER BY CASE WHEN store_no = '조은점' THEN 1 ELSE 0 END ASC, create_dt ASC ";
+
+    // debug
+    // echo "sql=" . $sql;
+    // return;
+
+    $result = $conn->query($sql);
+    $json_string = $dbConn->rs2Json1($result, '00'); // 추세분석 JSON 파일명 전달
+
+    echo $json_string;
+    $conn->close();
+    return;
+}
+
+// 점포명전부::c1a
+if ($category === 'c1a') {
+    $sql = " SELECT store_code,
+                    RIGHT(code_exp,3) AS store_nm
+               FROM `tcomcode`
+              WHERE 1
+                AND grp_code = '1'
+                AND use_yn = 'y'
+           GROUP BY store_code
+           ORDER BY CASE WHEN store_code = '000' THEN 1 ELSE 0 END DESC,
+                    store_nm ASC
+        ";
+
+    $result = $conn->query($sql);
+    $stores = array();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $stores[] = $row;
+        }
+    }
+    // JSON 형식으로 데이터 응답
+    echo json_encode($stores);
+    $conn->close();
+    return;
+}
+
+// 점포명 생산일에 있는것만 조회::category c1:: 코드c, 납품점:1\
+// - 해당일에 출고여부='n'인 납품점을 조회
+if ($category === "c1") {
+    $sql = " SELECT TCC.store_code, RIGHT(TCC.code_exp,3) AS store_nm
+               FROM `tcomcode` AS TCC, tbarcodeout AS TBO
+              WHERE 1
+                AND RIGHT(TCC.code_exp,3) = TBO.store_no
+                AND TCC.grp_code = '1'
+                AND TCC.use_yn = 'y'
+                AND TBO.store_no <> '조은점'
+                -- AND TBO.invoice_yn = 'n' -- 점번호 조회 시 납품여부
+                AND TBO.increate_dt = '$increate_dt'
+           GROUP BY TCC.store_code
+           ORDER BY CASE WHEN store_code = '000' THEN 1 ELSE 0 END DESC,
+                    store_nm ASC
+        ";
+
+    $result = $conn->query($sql);
+    $stores = array();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $stores[] = $row;
+        }
+    }
+    // JSON 형식으로 데이터 응답
+    echo json_encode($stores);
+    $conn->close();
+    return;
+}
+
+// 상품명 조회::etc
+// category c1:: 코드c, 상품:2
+if ($category === "c2") {
+    $sql = " SELECT store_code, RIGHT(code_exp) AS code_exp
+                FROM `tcomcode` WHERE 1 ";
+    if ($etc !== '') $sql .= " AND code_ext like '% " . $etc . "%'";
+    $sql .= " AND grp_code = '2' --상품코드
+                AND use_yn = 'y'
+                ORDER BY code_exp asc
+                ";
+    $result = $conn->query($sql);
+    $stores = array();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $stores[] = $row;
+        }
+    }
+    // JSON 형식으로 데이터 응답
+    echo json_encode($stores);
+    $conn->close();
+    return;
+}
+
+// category= BL#(송장번호) 최근10일 + alfa
+if ($category === "lc") {
+    $sql = " SELECT DATE_FORMAT(STR_TO_DATE(MAX(increate_dt), '%Y-%m-%d'), ' (%c/%e)') AS increate_dt, lc_no
+                FROM `tbarcodein`
+                WHERE STR_TO_DATE(increate_dt, '%Y-%m-%d') >= DATE_SUB(CURDATE(), INTERVAL 15 DAY)
+                GROUP BY lc_no
+                ORDER BY MAX(STR_TO_DATE(increate_dt, '%Y-%m-%d')) DESC
+                LIMIT 0, 100
+                ";
+    $result = $conn->query($sql);
+    $lcNumber = array();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $lcNumber[] = $row;
+        }
+    }
+    // JSON 형식으로 데이터 응답
+    echo json_encode($lcNumber);
+    $conn->close();
+    return;
+}
+
+// 목록에서 '삭제' 버튼::joeun_cnt 조은점(000)으로 이동
+if ($category === "invt") {
+    if ($barcode_out !== '') {
+        $sql = "UPDATE tbarcodeout SET store_no = '조은점' WHERE barcode_out = '" . $barcode_out . "'";
+        if ($conn->query($sql) == true) {
+            // SQL 실행 성공
+            echo json_encode(array('success' => true, 'message' => '성공적으로 처리되었습니다.', 'category' => $category, 'barcode_out' => $barcode_out));
+        } else {
+            // SQL 실행 실패
+            echo json_encode(array('success' => false, 'message' => "삭제 실패했습니다. 해당바코드 번호를 전산실에 문의하세요!", 'category' => $category));
+        }
+    } else {
+        echo json_encode(array('success' => false, 'message' => "바코드 번호가 넘어오지 않았습니다. ", 'category' => $category));
+    }
+    $conn->close();
+    return;
+}
+
+// [출고]상태에서 바코드 스캔 - '재고'상품만 선택한 점포로 이동 (업데이트)
+if ($category === "1u") {
+    if ($barcode_out !== '') {
+        // 조은점 재고에 있는 바코드만 출고에 추가할 수 있음.
+        $sql = "SELECT COUNT(1) AS Cnt FROM tbarcodeout
+                WHERE store_no = '조은점' AND invoice_yn = 'n'
+                AND barcode_out = '" . $barcode_out . "'";
+        $result = $conn->query($sql);
+        if ($result) {
+            // 쿼리 성공
+            $row = $result->fetch_assoc();
+            if ($row['Cnt'] > 0) {
+                // 재고에 있음
+                $sql = "UPDATE tbarcodeout SET store_no = '" . $store_no .
+                    "' WHERE store_no = '조은점' AND invoice_yn = 'n' AND barcode_out = '" . $barcode_out . "'";
+                if ($conn->query($sql) == true) {
+                    // SQL 실행 성공
+                    echo json_encode(array('success' => true, 'message' => '성공적으로 처리되었습니다.', 'category' => $category, 'barcode_out' => $barcode_out));
+                } else {
+                    // SQL 실행 실패
+                    echo json_encode(array('success' => false, 'message' => "삭제 실패했습니다. 해당바코드 번호를 전산실에 문의하세요!", 'category' => $category));
+                }
+            } else {
+                // 재고에 없음
+                echo json_encode(array('success' => false, 'message' => "재고에 없는 제품(바코드)입니다.", 'category' => $category));
+            }
+        } else {
+            // 쿼리 실패
+            echo "SQL 실행 오류: " . $conn->error;
+        }
+    } else {
+        echo json_encode(array('success' => false, 'message' => "바코드 번호가 넘어오지 않았습니다. ", 'category' => $category));
+    }
+    $conn->close();
+    return;
+}
+
+// 조은점(재고) 조회::etc
+// category c1:: 코드c, 조은점재고:3
+if ($category === "c3") {
+    $sql = " SELECT
+                COALESCE(SUM(CASE WHEN prod_nm = '연어필렛' THEN 1 ELSE 0 END), 0) AS cnt_fillets,
+                COALESCE(SUM(CASE WHEN prod_nm = '연어(스테이크)' THEN 1 ELSE 0 END), 0) AS cnt_steaks
+                FROM
+                `tbarcodeout`
+                WHERE
+                store_no = '조은점'
+                AND prod_nm IN ('연어필렛', '연어(스테이크)');
+                ";
+    $result = $conn->query($sql);
+    $stores = array();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $stores = $row;
+        }
+    }
+    // JSON 형식으로 데이터 응답
+    echo json_encode($stores);
+    $conn->close();
+    return;
+}
+
+// category c1:: 코드c, 조은점재고:3, 조은점재고상세조회:4
+// -barcode 재고 조회
+if ($category === "c4") {
+    $sql = " SELECT manu_date, expi_date, weight, prod_code, prod_nm
+                FROM `tbarcodeout`
+                WHERE 1
+                AND store_no = '조은점'
+                AND invoice_yn = 'n'
+                AND barcode_out = '" . $barcode_out . "'";
+    $result = $conn->query($sql);
+    $json_string = $dbConn->rs2Json1($result, '00'); // 1건
+    echo $json_string;
+    $conn->close();
+    return;
+}
+
+// 기출고(=기성출고) 여부 확인
+// category invYn::invoice Yn
+if ($category === "invYn") {
+    $sql = "SELECT COALESCE(invoice_yn, 'n') AS invoice_yn
+                FROM `tbarcodeinv_m`
+                WHERE increate_dt = '" . $increate_dt . "'
+                AND store_no = '" . $store_no . "';
+                // AND po_no = '" . $po_no . "'"; // po_no은 Agis 개발 후
+    $result = $conn->query($sql);
+    $store = $result->fetch_assoc();
+    // JSON 형식으로 데이터 응답
+    echo json_encode($store);
+    $conn->close();
+}
