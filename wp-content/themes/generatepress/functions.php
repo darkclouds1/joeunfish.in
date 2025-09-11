@@ -271,4 +271,3 @@ function handle_excel_upload() {
         wp_send_json_error('파일 저장 실패');
     }
 }
-

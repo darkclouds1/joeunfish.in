@@ -9,22 +9,6 @@
   padding-right: 5px; /* 오른쪽 여백 */
 }
 
-
-.gs-buttons {
-    background-color: #22AA7C !important; /* Jade Green */
-    color: rgb(255, 255, 255) !important; /* 텍스트 색상 */
-}
-
-.co-buttons {
-    background-color: #0577a8 !important;
-    color: white !important; /* 텍스트 색상 */
-}
-
-.subul-buttons {
-    background-color: #f3f7f8 !important;
-    color: black !important; /* 텍스트 색상 */
-}
-
 .button-container {
   display: flex;
   flex-wrap: wrap; /* 넘치면 다음 줄로 배치 */
@@ -51,9 +35,26 @@
   height: 70px; /* 버튼의 높이를 동일하게 설정 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
 }
+
 .button-container button:hover {
-  background-color: #e26534 !important;
+  background-color: yellow !important;
+  color: black !important;
   transform: translateY(-5px); /* 호버 시 살짝 위로 이동 */
+}
+
+.co-buttons {
+    background-color: #E31936 !important;
+    color: white !important; /* 텍스트 색상 */
+}
+
+.gs-buttons {
+    background-color: #22AA7C !important; /* Jade Green */
+    color: rgb(255, 255, 255) !important; /* 텍스트 색상 */
+}
+
+.subul-buttons {
+    background-color: #f3f7f8 !important;
+    color: black !important; /* 텍스트 색상 */
 }
 
 /* jofEdi-sum */
