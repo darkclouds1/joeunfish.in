@@ -1,3 +1,13 @@
 backup/
 *.log
-
+public_html/phpmyadmin/
+public_html/ecommerce_java/
+backup/
+backup/backup_db
+public_html/wp-content/uploads
+logs/*.log
+*.bak
+*.tmp
+vendor/
+node_modules/
+logs/
