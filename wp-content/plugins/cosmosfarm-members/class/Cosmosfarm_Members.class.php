@@ -18,7 +18,7 @@ final class Cosmosfarm_Members {
 		add_filter('wpmem_login_failed_args', array($this, 'login_failed_args'), 10, 1);
 		add_filter('wpmem_msg_dialog_arr', array($this, 'msg_dialog_arr'), 10, 2);
 		add_filter('wpmem_restricted_msg', array($this, 'restricted_msg'), 10, 1);
-		add_filter('wpmem_login_form_defaults', array($this, 'login_form_defaults'), 10, 1);
+		add_filter('wpmem_inc_login_inputs', array($this, 'inc_login_inputs'), 10, 1);
 		add_filter('wpmem_pre_validate_form', array($this, 'pre_validate_form'), 10, 2);
 		add_filter('wpmem_register_data', array($this, 'register_data'), 10, 2);
 		add_filter('wpmem_pwdreset_args', array($this, 'pwdreset_args'), 10, 1);
@@ -980,7 +980,7 @@ final class Cosmosfarm_Members {
 	
 	public function inc_login_inputs($array){
 		global $wpmem;
-		if(isset($array[0]['tag']) && $array[0]['tag'] == 'log'){
+		if($array[0]['tag'] == 'log'){
 			$option = get_cosmosfarm_members_option();
 			if($option->allow_email_login){
 				$array[0]['name'] = __( 'Email', 'cosmosfarm-members');
@@ -2074,13 +2074,5 @@ final class Cosmosfarm_Members {
 				}
 			}
 		}
-	}
-	
-	public function login_form_defaults($defaults){
-		$option = get_cosmosfarm_members_option();
-		if($option->allow_email_login){
-			$defaults['label_username'] = __( 'Email', 'cosmosfarm-members');
-		}
-		return $defaults;
 	}
 }

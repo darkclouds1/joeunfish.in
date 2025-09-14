@@ -164,7 +164,7 @@ function move() {
     loading.style.pointerEvents = "none";
     loading.innerHTML = `
       <div style='background:#fff;padding:20px 40px;border-radius:8px;font-size:20px;display:flex;flex-direction:column;align-items:center;color:#222;'>
-        <img src="0.gif" alt="로딩중">
+        <img src="/img/loading/0.gif" alt="로딩중">
         로딩중...
       </div>
     `;

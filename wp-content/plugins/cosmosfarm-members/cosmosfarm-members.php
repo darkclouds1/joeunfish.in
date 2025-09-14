@@ -622,14 +622,12 @@ function get_cosmosfarm_members_logout_url($args = array())
 	} else if (is_array($args) && isset($args['redirect_query_var']) && $args['redirect_query_var'] && isset($_REQUEST[$args['redirect_query_var']]) && $_REQUEST[$args['redirect_query_var']]) {
 		$redirect = $_REQUEST[$args['redirect_query_var']];
 	} else if (is_string($args) && $args) {
-		$redirect = $args;
+		$redirect = $redirect;
 	} else {
-		$redirect = home_url('/');
+		$redirect = $_SERVER['REQUEST_URI'];
 	}
 
-	$redirect_to = apply_filters( 'logout_redirect', $redirect, $redirect, wp_get_current_user() );
-
-	return wp_logout_url($redirect_to);
+	return wp_logout_url($redirect);
 }
 
 function get_cosmosfarm_members_file_handler()

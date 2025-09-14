@@ -7,6 +7,13 @@ Author: Monolith
 Author URI: https://uloca.net
 License: GPL2 */
 
+function jof_start_session_ordcnt() {
+    if (!session_id()) {
+        session_start();
+    }
+}
+add_action('init', 'jof_start_session_ordcnt');
+
 function enqueue_chartjs()
 {
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js', array(), null, true);
@@ -42,10 +49,6 @@ function jofMainOrdCntChartShortCode()
     $orders_table = 'torders';
     $orderproducts_table = 'torderproducts';
 
-    // 세션 시작
-    if (!session_id()) {
-        session_start();
-    }
     
     file_put_contents($logFilePath, "[" . date('Y-m-d H:i:s') . "] Session started\n", FILE_APPEND | LOCK_EX);
 

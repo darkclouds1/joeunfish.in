@@ -1,0 +1,104 @@
+<?php
+/*
+Plugin Name: 수불추적관리
+Plugin URI: http://joeunfish.in/
+Description: 주문 예측량(torder_predict) 테이블을 포함하여 수불을 추적합니다.
+Version: 1.0
+Author: Gemini - by Monolith company
+Author URI: http://joeunfish.in
+*/
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
+
+// shortcode 등록
+add_shortcode('jof_subul_pd', 'jof_subul_pd_shortcode');
+
+function jof_subul_pd_shortcode() {
+    // 파일 수정 시간을 기반으로 버전 관리 (Cache Busting)
+    $pd_css_ver = file_exists(__DIR__ . '/subul_pd.css') ? filemtime(__DIR__ . '/subul_pd.css') : time();
+    $common_ver = file_exists($_SERVER['DOCUMENT_ROOT'] . '/jof/js/common.js') ? filemtime($_SERVER['DOCUMENT_ROOT'] . '/jof/js/common.js') : time();
+    $pd_class_ver = file_exists(__DIR__ . '/subulPdClass.js') ? filemtime(__DIR__ . '/subulPdClass.js') : time();
+
+    ob_start();
+
+    // 기존 PHP 코드 시작
+    date_default_timezone_set('Asia/Seoul');
+    require($_SERVER['DOCUMENT_ROOT'] . '/classphp/dbConn_fish.php');
+
+    $dbConn   = new dbconnClassFish;
+    $platForm = $dbConn->MobileCheck();
+
+    // From: 전주 일요일
+    // 오늘 날짜를 기준으로 지난 주 일요일을 명확하게 계산합니다.
+    $fromDate = new DateTime();
+    $dayOfWeek = (int)$fromDate->format('w'); // 0=일, 1=월, ..., 6=토
+    
+    // 1. 먼저 이번 주 일요일로 날짜를 이동합니다.
+    //    (오늘이 일요일이라면 날짜는 변경되지 않습니다)
+    if ($dayOfWeek > 0) {
+        $fromDate->modify("-{$dayOfWeek} days");
+    }
+    // 2. 그 다음, 7일을 빼서 정확히 '지난 주 일요일'을 구합니다.
+    $fromDate->modify('-7 days');
+
+
+    // To: fromDate로부터 10일 뒤
+    $toDate = clone $fromDate;
+    $toDate->modify('+10 days');
+
+    $defaultFromDate = $fromDate->format('Y-m-d');
+    $defaultToDate = $toDate->format('Y-m-d');
+
+    // 여기에 HTML, CSS, JavaScript 코드를 넣습니다.
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>수불추적관리</title>
+
+        <script src="/wp-content/plugins/jofSubul-Pd/subulPdClass.js?v=<?php echo $pd_class_ver; ?>"></script>
+        <script>
+            // 전역 스코프에서 인스턴스가 없을 경우에만 생성
+            if (typeof window.subulPdClass === 'undefined') {
+                window.subulPdClass = new subulPdClass();
+            }
+        </script>
+        <script rel="preload" src="/jof/js/common.js?v=<?php echo $common_ver; ?>"></script>
+        
+        <!-- css -->
+        <link rel="stylesheet" type="text/css" href="/wp-content/plugins/jofSubul-Pd/subul_pd.css?v=<?php echo $pd_css_ver; ?>" />
+
+    </head>
+    <body>
+        <div id="contents">
+            <div id="jofSubulPd-container">
+                <!-- 조회 조건 -->
+                <div class="search-row">
+                    <input type="date" id="fromDate-pd" value="<?php echo esc_attr($defaultFromDate); ?>">
+                    <label for="toDate-pd">~</label>
+                    <input type="date" id="toDate-pd" value="<?php echo esc_attr($defaultToDate); ?>" readonly>
+                    <button id="searchBtn-pd">조회</button>
+                </div>
+                
+                <!-- 결과 테이블 -->
+                <div id="tables-pd"></div>
+            </div>
+        </div>
+        
+        <!-- jQuery body 맨아래 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </body>
+    <script type="text/javascript">
+        // PHP 변수를 JavaScript로 전달
+        var platForm = '<?php echo $platForm; ?>';
+        window.subul_pd_srv = "<?php echo esc_js(plugins_url('subul_pd_srv.php', __FILE__)); ?>";
+    </script>
+    </html>
+    <?php
+
+    return ob_get_clean();
+}
