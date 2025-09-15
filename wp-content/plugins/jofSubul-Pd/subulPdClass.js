@@ -81,6 +81,14 @@ class subulPdClass {
     datas.forEach(rowData => {
       const row = tbody.insertRow();
       
+      if (rowData['구분'] === '예상판매') {
+        row.classList.add('expected-sale');
+      }
+      if (rowData['구분'] === '실제판매') {
+        row.classList.add('actual-sale');
+        row.style.backgroundColor = 'yellow';
+      }
+
       // 1. 비고 (구분)
       const cellGuBun = row.insertCell();
       cellGuBun.textContent = rowData['구분'];
@@ -89,13 +97,13 @@ class subulPdClass {
       dates.forEach(date => {
         const cell = row.insertCell();
         const value = rowData[date];
-        cell.textContent = value ? Number(value).toLocaleString() : '0';
+        cell.textContent = Number(value) ? Number(value).toLocaleString() : '-';
         cell.style.textAlign = 'right';
       });
 
       // 3. 합계
       const cellTotal = row.insertCell();
-      cellTotal.textContent = rowData['합계'] ? Number(rowData['합계']).toLocaleString() : '0';
+      cellTotal.textContent = Number(rowData['합계']) ? Number(rowData['합계']).toLocaleString() : '-';
       cellTotal.style.textAlign = 'right';
     });
 
@@ -109,78 +117,160 @@ class subulPdClass {
   // 모바일용 카드 뷰 생성
   makeTableMobile(datas) {
     const container = document.getElementById("tables-pd");
-    container.innerHTML = "";
-
-    if (!datas || datas.length === 0) {
-      container.innerHTML = "<div class='no-data-message'>데이터가 없습니다</div>";
+    if (!container) {
+      console.error("Element with id 'tables-pd' not found");
       return;
     }
+    container.innerHTML = "";
 
-    const dates = Object.keys(datas[0]).filter(key => key !== '구분' && key !== '합계').sort();
-    const days = ['일', '월', '화', '수', '목', '금', '토'];
+    const from_date = document.getElementById('from_date_pd').value;
+    const to_date = document.getElementById('to_date_pd').value;
 
-    datas.forEach(item => {
+    // 날짜 목록 생성 (타임존 문제 방지)
+    const dateRange = [];
+    let currentDate = new Date(from_date + 'T00:00:00');
+    const endDate = new Date(to_date + 'T00:00:00');
+
+    while (currentDate <= endDate) {
+      dateRange.push(currentDate.toISOString().slice(0, 10));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    // 각 카테고리별로 카드 생성
+    datas.forEach(categoryData => {
+      const category = categoryData['구분'];
       const card = document.createElement('div');
-      card.className = 'mobile-card collapsed'; // 기본적으로 접힌 상태
+      // 카드를 기본적으로 접힌 상태로 설정 (expanded 클래스 제거)
+      card.className = 'mobile-card'; 
 
       const header = document.createElement('div');
       header.className = 'card-header';
+
+      // 예상판매, 실제판매 헤더 배경색 설정
+      if (category === '예상판매') {
+        header.style.backgroundColor = 'peachpuff';
+      } else if (category === '실제판매') {
+        header.style.backgroundColor = 'yellow';
+      }
+
+      const total = categoryData['합계'] !== undefined ? categoryData['합계'] : 0;
+      // 숫자에 콤마 추가 (e.g., 1832 -> 1,832)
+      const formattedTotal = new Intl.NumberFormat('ko-KR').format(total);
+
       header.innerHTML = `
-        <div class="header-main">
-          ${item['구분']}
-          <span class="header-total">합계: ${Number(item['합계']).toLocaleString()}</span>
-        </div>
-        <span class="click-indicator"><span class="arrow">▼</span></span>
+        <span class="header-title">${category}</span>
+        <span class="header-total">${formattedTotal}</span>
+        <span class="arrow">▼</span>
       `;
       card.appendChild(header);
 
       const content = document.createElement('div');
       content.className = 'card-content';
-      content.style.display = 'none';
+      
+      dateRange.forEach(date => {
+        const value = categoryData[date] !== undefined && categoryData[date] !== null ? categoryData[date] : '0';
+        
+        const dateObj = new Date(date + 'T00:00:00');
+        const month = dateObj.getMonth() + 1;
+        const day = dateObj.getDate();
+        const weekDay = ['일', '월', '화', '수', '목', '금', '토'][dateObj.getDay()];
+        const formattedDate = `${month}/${day}(${weekDay}):`;
 
-      dates.forEach(dateStr => {
-        const value = Number(item[dateStr] || 0);
-        if (value !== 0) { // 값이 0이 아닌 경우에만 표시
-          const date = new Date(dateStr);
-          const month = date.getUTCMonth() + 1;
-          const day = date.getUTCDate();
-          const dayOfWeek = days[date.getUTCDay()];
-          const formattedDate = `${month}/${day}(${dayOfWeek})`;
+        const dataRow = document.createElement('div');
+        dataRow.className = 'data-row-pd';
+        
+        // 숫자 0과 문자 '0'을 모두 처리하기 위해 느슨한 비교(==) 사용
+        const valueClass = value == '0' ? 'pd-value-label zero-value' : 'pd-value-label';
 
-          const dataItem = document.createElement('div');
-          dataItem.className = 'data-item';
-          dataItem.innerHTML = `<span class="data-label">${formattedDate}:</span> <span class="data-value">${value.toLocaleString()}</span>`;
-          content.appendChild(dataItem);
-        }
+        // 숫자에 콤마 추가
+        const formattedValue = new Intl.NumberFormat('ko-KR').format(value);
+
+        dataRow.innerHTML = `
+            <span class="pd-date-label">${formattedDate}</span>
+            <span class="${valueClass}">${formattedValue}</span>
+        `;
+        content.appendChild(dataRow);
       });
 
       card.appendChild(content);
-      container.appendChild(card);
 
-      // 카드 헤더 클릭 시 내용 토글
+      // 토글 이벤트 추가
       header.addEventListener('click', () => {
-        card.classList.toggle('collapsed');
-        const isCollapsed = card.classList.contains('collapsed');
-        content.style.display = isCollapsed ? 'none' : 'block';
-        header.querySelector('.arrow').textContent = isCollapsed ? '▼' : '▲';
+        card.classList.toggle('expanded');
+        const arrow = header.querySelector('.arrow');
+        if (card.classList.contains('expanded')) {
+          arrow.innerHTML = '▲';
+        } else {
+          arrow.innerHTML = '▼';
+        }
       });
+
+      container.appendChild(card);
     });
+  }
+
+  init() {
+    const fromDateEl = document.getElementById('from_date_pd');
+    const toDateEl = document.getElementById('to_date_pd');
+    const searchBtn = document.getElementById('searchBtn-pd');
+
+    if (!fromDateEl || !toDateEl || !searchBtn) {
+      console.error('수불추적관리: 필수 UI 요소를 찾을 수 없습니다 (from_date_pd, to_date_pd, searchBtn-pd). HTML 구조를 확인하세요.');
+      return;
+    }
+
+    // from_date_pd 요소가 변경되면 해당 주의 일요일을 찾아 시작일로 설정
+    fromDateEl.addEventListener('change', () => {
+        const selectedDate = new Date(fromDateEl.value);
+        
+        // 선택된 날짜의 요일 (0=일요일, 1=월요일, ..., 6=토요일)
+        const dayOfWeek = selectedDate.getDay();
+        
+        // 선택된 날짜에서 요일만큼 날짜를 빼서 해당 주의 일요일을 계산
+        const sundayOfSelectedWeek = new Date(selectedDate);
+        sundayOfSelectedWeek.setDate(selectedDate.getDate() - dayOfWeek);
+
+        // 시작일(일요일)과 종료일(+10일) 계산
+        const startDate = sundayOfSelectedWeek;
+        const endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 10);
+        
+        // 계산된 날짜를 yyyy-mm-dd 형식으로 변환하여 input 필드에 설정
+        fromDateEl.value = startDate.toISOString().slice(0, 10);
+        toDateEl.value = endDate.toISOString().slice(0, 10);
+
+        // 날짜 변경 후 자동으로 데이터 조회 실행
+        this.loadData();
+    });
+
+    // 조회 버튼 이벤트 리스너
+    searchBtn.addEventListener('click', () => {
+      this.loadData();
+    });
+    
+    // 최초 데이터 로드
+    this.loadData();
   }
 
   // 서버에서 데이터 로드
   loadData() {
-    const from_date = document.getElementById("fromDate-pd").value;
-    const to_date = document.getElementById("toDate-pd").value;
+    const fromDateEl = document.getElementById('from_date_pd');
+    const toDateEl = document.getElementById('to_date_pd');
 
-    if (!from_date || !to_date) {
-      alert("시작일과 종료일을 모두 선택해주세요.");
+    if (!fromDateEl || !toDateEl) {
+      console.error("loadData: 날짜 입력 요소를 찾을 수 없습니다.");
+      const tableContainer = document.getElementById("tables-pd");
+      if (tableContainer) {
+        tableContainer.innerHTML = `<div class="error-message">오류: 날짜 입력 필드를 찾을 수 없습니다. 페이지를 새로고침하거나 관리자에게 문의하세요.</div>`;
+      }
       return;
     }
 
-    setTimeout(() => move(), 100);
+    move();
 
-    const param = `from_date=${from_date}&to_date=${to_date}`;
-    const url = `${subul_pd_srv}?category=search_pd&${param}`;
+    const from_date = fromDateEl.value;
+    const to_date = toDateEl.value;
+    const url = `${window.subul_pd_srv}?category=search_pd&from_date=${from_date}&to_date=${to_date}`;
 
     const tableContainer = document.getElementById("tables-pd");
     tableContainer.innerHTML = "";
@@ -193,25 +283,23 @@ class subulPdClass {
       .then(result => {
         if (result.status === 'success') {
           this.data = result.data;
-          tableContainer.innerHTML = "";
-
-          const hasData = this.data && this.data.length > 0;
-
-          if (this.platForm === "computer") {
-            if (hasData) {
-              this.makeTableHead();
-              this.makeTableBody(this.data);
-            } else {
-              tableContainer.innerHTML = "<div class='no-data-message'>데이터가 없습니다</div>";
-            }
-          } else { // mobile
-            if (hasData) {
-              this.makeTableMobile(this.data);
-            } else {
-              tableContainer.innerHTML = "<div class='no-data-message'>데이터가 없습니다</div>";
-            }
+          const tableContainer = document.getElementById("tables-pd");
+          if (!tableContainer) {
+            console.error("결과 테이블 컨테이너 'tables-pd'를 찾을 수 없습니다.");
+            return;
           }
+          tableContainer.innerHTML = ""; // 기존 내용을 초기화
+
+          // 화면 너비에 따라 모바일/데스크톱 뷰를 결정 (CSS breakpoint: 768px)
+          if (window.innerWidth <= 768) {
+            this.makeTableMobile(this.data);
+          } else {
+            this.makeTableHead(); // 데스크톱 테이블 헤더 생성
+            this.makeTableBody(this.data);
+          }
+
         } else {
+          alert(result.message || '데이터 로드에 실패했습니다.');
           throw new Error(result.message || "데이터 로드 실패");
         }
       })
@@ -224,77 +312,3 @@ class subulPdClass {
       });
   }
 }
-
-// 페이지 로드 시 실행
-document.addEventListener('DOMContentLoaded', () => {
-  if (typeof window.subulPd === 'undefined') {
-    window.subulPd = new subulPdClass();
-  }
-
-  // platForm 설정
-  if (window.matchMedia("only screen and (max-width: 760px)").matches) {
-    subulPd.platForm = 'mobile';
-  } else {
-    subulPd.platForm = 'computer';
-  }
-  
-  // 조회 버튼 이벤트
-  const searchBtn = document.getElementById('searchBtn-pd');
-  if (searchBtn) {
-    searchBtn.addEventListener('click', () => subulPd.loadData());
-  }
-
-  // --- 날짜 관련 이벤트 리스너 설정 ---
-  const fromDateEl = document.getElementById('fromDate-pd');
-  const toDateEl = document.getElementById('toDate-pd');
-
-  if (fromDateEl && toDateEl) {
-    const adjustDatesAndReload = () => {
-      const fromDateValue = fromDateEl.value;
-      if (!fromDateValue) return;
-
-      // 1. 선택한 날짜를 Date 객체로 변환 (시간대 문제 방지)
-      const parts = fromDateValue.split('-');
-      const year = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1; // JS 월은 0부터 시작
-      const day = parseInt(parts[2], 10);
-      const selectedDate = new Date(year, month, day);
-
-      // 2. 선택한 날짜가 속한 주의 일요일로 날짜 조정
-      const dayOfWeek = selectedDate.getDay(); // 0=일요일, 1=월요일, ...
-      selectedDate.setDate(selectedDate.getDate() - dayOfWeek);
-
-      // 3. fromDate 입력 필드 업데이트
-      const fromYear = selectedDate.getFullYear();
-      const fromMonth = String(selectedDate.getMonth() + 1).padStart(2, '0');
-      const fromDay = String(selectedDate.getDate()).padStart(2, '0');
-      fromDateEl.value = `${fromYear}-${fromMonth}-${fromDay}`;
-      
-      // 4. fromDate에 10일을 더해 toDate 계산 및 업데이트
-      const toDate = new Date(selectedDate);
-      toDate.setDate(toDate.getDate() + 10);
-      const toYear = toDate.getFullYear();
-      const toMonth = String(toDate.getMonth() + 1).padStart(2, '0');
-      const toDay = String(toDate.getDate()).padStart(2, '0');
-      toDateEl.value = `${toYear}-${toMonth}-${toDay}`;
-
-      // 5. 변경된 날짜로 데이터 다시 로드
-      subulPd.loadData();
-    };
-
-    fromDateEl.addEventListener('change', adjustDatesAndReload);
-
-    fromDateEl.addEventListener('keypress', (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        searchBtn.click();
-      }
-    });
-  }
-  // --- 날짜 관련 이벤트 리스너 설정 끝 ---
-
-  // 페이지 로드 시 데이터 조회
-  setTimeout(() => {
-    subulPd.loadData();
-  }, 100);
-});

@@ -95,8 +95,16 @@ button:hover {
     background-color: #f2f2f2;
 }
 
+.subul-pd-table tbody .expected-sale {
+    background-color: peachpuff;
+}
+
+.subul-pd-table tbody .actual-sale {
+    background-color: yellow;
+}
+
 .subul-pd-table tbody tr:hover {
-    background-color: #e9ecef;
+    background-color: #96f3a6;
 }
 
 /* 첫 번째, 두 번째 열 고정 (가로 스크롤 시) - 주석 처리 */
@@ -155,5 +163,100 @@ button:hover {
     button {
         height: 35px !important;
         font-size: 12px !important;
+    }
+
+    /* --- 모바일 카드 스타일 (subul.css 참조) --- */
+    .mobile-card {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+        background-color: #f7f7f7;
+        padding: 10px 15px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        position: relative; /* 자식 요소의 absolute 포지셔닝을 위한 기준 */
+    }
+
+    .card-content {
+        padding: 15px;
+        display: none; /* 기본적으로 숨김 */
+    }
+
+    .mobile-card.expanded .card-content {
+        display: block; /* 확장 시 보임 */
+    }
+
+    .data-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .data-item {
+        background-color: #f9f9f9;
+        padding: 8px;
+        border-radius: 4px;
+    }
+
+    .data-label {
+        font-weight: bold;
+        color: #555;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .data-value {
+        color: #333;
+    }
+    
+    .arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-card.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    
+    .header-title {
+        /* flex-grow: 1; */ /* 왼쪽 정렬을 위해 특별한 스타일 불필요 */
+    }
+
+    .header-total {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .data-row-pd {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .data-row-pd:last-child {
+        border-bottom: none;
+    }
+
+    .pd-date-label {
+        text-align: left;
+    }
+
+    .pd-value-label {
+        text-align: right;
+        font-weight: bold;
+    }
+
+    .zero-value {
+        color: #aaa; /* 연한 회색 */
     }
 }

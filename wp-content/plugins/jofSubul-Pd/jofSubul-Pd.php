@@ -4,7 +4,7 @@ Plugin Name: 수불추적관리
 Plugin URI: http://joeunfish.in/
 Description: 주문 예측량(torder_predict) 테이블을 포함하여 수불을 추적합니다.
 Version: 1.0
-Author: Gemini - by Monolith company
+Author: Monolith - by 먹구름
 Author URI: http://joeunfish.in
 */
 
@@ -75,13 +75,14 @@ function jof_subul_pd_shortcode() {
     </head>
     <body>
         <div id="contents">
+            <span> ■ 조회조건: 시작일(주)를 선택하면 종료 날짜는 자동으로 10일 후로 설정됩니다.</span>
             <div id="jofSubulPd-container">
                 <!-- 조회 조건 -->
                 <div class="search-row">
-                    <input type="date" id="fromDate-pd" value="<?php echo esc_attr($defaultFromDate); ?>">
-                    <label for="toDate-pd">~</label>
-                    <input type="date" id="toDate-pd" value="<?php echo esc_attr($defaultToDate); ?>" readonly>
-                    <button id="searchBtn-pd">조회</button>
+                    <input type="date" id="from_date_pd" value="<?php echo esc_attr($defaultFromDate); ?>">
+                    <label for="to_date_pd">~</label>
+                    <input type="date" id="to_date_pd" value="<?php echo esc_attr($defaultToDate); ?>" readonly>
+                    <button id="searchBtn-pd">조회</button> 
                 </div>
                 
                 <!-- 결과 테이블 -->
@@ -91,12 +92,28 @@ function jof_subul_pd_shortcode() {
         
         <!-- jQuery body 맨아래 -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+        <script type="text/javascript">
+            // PHP 변수를 JavaScript로 전달
+            var platForm = '<?php echo $platForm; ?>';
+            window.subul_pd_srv = "<?php echo esc_js(plugins_url('subul_pd_srv.php', __FILE__)); ?>";
+
+            function initializeSubulPd() {
+                if (typeof subulPd === 'undefined') {
+                    var subulPd = new subulPdClass();
+                    subulPd.init();
+                }
+            }
+
+            // DOM이 준비되었는지 확인하여 스크립트 실행 (안정적인 방법)
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeSubulPd);
+            } else {
+                // DOMContentLoaded 이벤트가 이미 발생한 경우 즉시 실행
+                initializeSubulPd();
+            }
+        </script>
     </body>
-    <script type="text/javascript">
-        // PHP 변수를 JavaScript로 전달
-        var platForm = '<?php echo $platForm; ?>';
-        window.subul_pd_srv = "<?php echo esc_js(plugins_url('subul_pd_srv.php', __FILE__)); ?>";
-    </script>
     </html>
     <?php
 

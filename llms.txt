@@ -12,7 +12,7 @@
 
 ## Pages
 
-- [추적(연어필렛)](https://joeunfish.in/subul-trace/): 추적(연어필렛) 개발중&#8230;
+- [추적(연어필렛)](https://joeunfish.in/subul-trace/)
 - [문어재고관리](https://joeunfish.in/octopusinvt/): ▷ 메인메뉴&gt;통관|매입&gt;매입&gt;[재고] + 이동&gt;[재고] = 재고[합계]
 - [Barcode | 생산(Map)](https://joeunfish.in/barcodeoutmap/)
 - [(GS)납기통계](https://joeunfish.in/ordersummary-month-gs/)
