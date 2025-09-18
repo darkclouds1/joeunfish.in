@@ -153,10 +153,9 @@ function getCoDayData($start_date)
                     END AS export_weight
                 FROM 
                     tbarcodein a
-                    LEFT JOIN RawImport ri ON RIGHT(ri.awb, 4) = LEFT(a.lc_no, 4)
+                    LEFT JOIN RawImport ri ON RIGHT(ri.awb, 4) = LEFT(a.lc_no, 4) AND ri.import_dt >= DATE_SUB(DATE(a.increate_dt), INTERVAL 1 MONTH)  -- 통관일 기준 1개월 내
                 WHERE 
                     DATE(a.increate_dt) = @make_dt
-                    AND ri.import_dt >= DATE_SUB(DATE(a.increate_dt), INTERVAL 1 MONTH)  -- 통관일 기준 1개월 내
                 GROUP BY 
                     a.lc_no,
                     a.increate_dt,
@@ -172,23 +171,18 @@ function getCoDayData($start_date)
             Production AS (
                 SELECT 
                     lc_no AS bl_no,
-                    b.import_dt AS import_date,
-                    a.manu_date AS manu_date,
+                    DATE(create_dt) AS manu_date,
                     prod_nm,
-                    COUNT(a.prod_code) AS box_count,
-                    CAST(SUM(a.weight) AS DECIMAL(10,1)) AS prod_weight,
-                    b.awb AS awb
+                    COUNT(serial_no) AS box_count,
+                    CAST(SUM(weight) AS DECIMAL(10,1)) AS prod_weight
                 FROM 
-                    tbarcodeout a
-                    LEFT JOIN tpurchase_imp b ON RIGHT(b.awb, 4) = a.lc_no
+                    tbarcodeout
                 WHERE 
-                    a.manu_date = @make_dt
-                    AND a.origin_store_code = '000'
-                    AND b.import_dt >= DATE_SUB(DATE(a.manu_date), INTERVAL 1 MONTH)  -- 통관일 기준 1개월 내
+                    DATE(create_dt) = @make_dt
                 GROUP BY 
                     lc_no,
                     prod_nm,
-                    b.import_dt
+                    DATE(create_dt)
             ),
 
             -- 생산합계 정보 (연어필렛)
@@ -196,16 +190,15 @@ function getCoDayData($start_date)
                 SELECT 
                     '전체' AS bl_no,
                     MAX(b.import_dt) AS import_date,
-                    a.manu_date AS manu_date,
+                    DATE(a.create_dt) AS manu_date,
                     COUNT(1) AS total_boxes,
                     CAST(SUM(a.weight) AS DECIMAL(10,1)) AS total_prod_weight
                 FROM 
                     tbarcodeout a
                     LEFT JOIN tpurchase_imp b ON RIGHT(b.awb, 4) = a.lc_no
                 WHERE 
-                    a.origin_store_code = '000'
-                    AND a.manu_date = @make_dt
-                    AND a.prod_nm NOT LIKE '%스테이크%'
+                    a.prod_nm NOT LIKE '%스테이크%'
+                    AND DATE(a.create_dt) = @make_dt
             ),
 
             -- 생산합계 정보 (스테이크)
@@ -213,16 +206,15 @@ function getCoDayData($start_date)
                 SELECT 
                     '전체' AS bl_no,
                     MAX(b.import_dt) AS import_date,
-                    a.manu_date AS manu_date,
+                    DATE(a.create_dt) AS manu_date,
                     COUNT(1) AS total_boxes,
                     CAST(SUM(a.weight) AS DECIMAL(10,1)) AS total_prod_weight
                 FROM 
                     tbarcodeout a
                     LEFT JOIN tpurchase_imp b ON RIGHT(b.awb, 4) = a.lc_no
                 WHERE 
-                    a.origin_store_code = '000'
-                    AND a.manu_date = @make_dt
-                    AND a.prod_nm LIKE '%스테이크%'
+                    a.prod_nm LIKE '%스테이크%'
+                    AND DATE(a.create_dt) = @make_dt
             ),
 
             -- 기타판매 정보 (판매점별)
