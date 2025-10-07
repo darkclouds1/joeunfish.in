@@ -12,6 +12,7 @@
 
 ## Pages
 
+- [시스템_작업내역](https://joeunfish.in/%ec%8b%9c%ec%8a%a4%ed%85%9c_%ec%9e%91%ec%97%85%eb%82%b4%ec%97%ad/)
 - [추적(COSTCO연어필렛)](https://joeunfish.in/subul-trace/)
 - [문어재고관리](https://joeunfish.in/octopusinvt/): ▷ 메인메뉴&gt;통관|매입&gt;매입&gt;[재고] + 이동&gt;[재고] = 재고[합계]
 - [Barcode | 생산(Map)](https://joeunfish.in/barcodeoutmap/)
